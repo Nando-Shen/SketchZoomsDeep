@@ -217,9 +217,10 @@ def get_sampling(path_img, r=5, replace=False):
     path_msk = path_img.replace(".png", "_mask.png")
     #imagen y mascara
     img = cv2.resize(cv2.imread(path_img),(512, 512))
-    msk = cv2.resize(cv2.imread(path_msk),(512, 512))
+    # msk = cv2.resize(cv2.imread(path_msk),(512, 512))
     # binarizar la mascara
-    msk_bool = msk == [0,0,0]
+    img_bw = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY)[1]
+    msk_bool = img_bw == [0,0,0]
     msk_bool = msk_bool[:, :, 0]
     
     if not path.exists(path_img.replace(".png", "_sample.npy")) or replace:
